@@ -3,7 +3,6 @@ import io.github.cdimascio.dotenv.Dotenv;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
-import java.util.Stack;
 
 public class dataBase {
 
@@ -13,9 +12,11 @@ public class dataBase {
     private static final String dbUsername = dotenv.get("DB_USERNAME");
     private static final String dbPassword = dotenv.get("DB_PASSWORD");
 
+    static Connection connect;
+    static Statement statement;
+
     public static Connection getConnection() {
-        Connection connect = null;
-        Statement statement = null;
+
 
         try {
 

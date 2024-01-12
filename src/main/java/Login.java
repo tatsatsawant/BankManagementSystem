@@ -11,63 +11,81 @@ public class Login extends JFrame implements ActionListener {
     Login() {
         setTitle("Automated Teller Machine");
         setSize(800, 500);
-        setLayout(null);
+        setLayout(new BorderLayout());
+
+        JPanel header = new JPanel();
+        header.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
+        header.setBackground(Color.white);
+        add(header, BorderLayout.NORTH);
 
         ImageIcon i1 = new ImageIcon("bankIcon.png");
         Image i2 = i1.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);
         ImageIcon i3 = new ImageIcon(i2);
         JLabel image = new JLabel(i3);
         image.setBounds(150, 10, 100, 100);
-        add(image);
+        header.add(image);
 
         JLabel heading = new JLabel("Welcome to ATM");
         heading.setBounds(250, 40, 400, 40);
         heading.setFont(new Font("Osward", Font.BOLD, 38));
-        add(heading);
+        header.add(heading);
+
+        JPanel content = new JPanel();
+        content.setLayout(new GridBagLayout());
+        content.setBackground(Color.white);
+        add(content, BorderLayout.CENTER);
+
+        //----------------------------------------------------
+        GridBagConstraints gbcLabel = new GridBagConstraints();
+        gbcLabel.anchor = GridBagConstraints.WEST;
+        gbcLabel.insets = new Insets(0, 10, 30, 20);
+
+        GridBagConstraints gbcField = new GridBagConstraints();
+        gbcField.anchor = GridBagConstraints.WEST;
+        gbcField.insets = new Insets(0, 10, 30, 10);
+        gbcField.gridwidth = GridBagConstraints.REMAINDER;
+        //-----------------------------------------------------
 
         JLabel cardNumber = new JLabel("Card No:");
-        cardNumber.setBounds(180, 150, 200, 40);
-        cardNumber.setFont(new Font("Raleway", Font.BOLD, 28));
-        add(cardNumber);
+        cardNumber.setBackground(Color.white);
+        cardNumber.setFont(new Font("Raleway", Font.BOLD, 20));
+        content.add(cardNumber, gbcLabel);
 
-        cardTextField = new JTextField();
-        cardTextField.setBounds(320, 150, 250, 40);
+        cardTextField = new JTextField(15);
+        cardTextField.setBackground(Color.white);
         cardTextField.setFont(new Font("Raleway", Font.ITALIC, 20));
-        add(cardTextField);
+        content.add(cardTextField, gbcField);
 
         JLabel pin = new JLabel("Pin No:");
-        pin.setBounds(180, 200, 400, 40);
-        pin.setFont(new Font("Raleway", Font.BOLD, 28));
-        add(pin);
+        pin.setBackground(Color.white);
+        pin.setFont(new Font("Raleway", Font.BOLD, 20));
+        content.add(pin, gbcLabel);
 
-        cardPin = new JPasswordField();
-        cardPin.setBounds(320, 200, 250, 40);
+        cardPin = new JPasswordField(15);
+        cardPin.setBackground(Color.white);
         cardPin.setFont(new Font("Raleway", Font.ITALIC, 20));
-        add(cardPin);
+        content.add(cardPin, gbcField);
 
         login = new JButton("Sign In");
-        login.setBounds(320, 250, 100, 30);
         login.setFocusable(false);
         login.setBackground(Color.black);
         login.setForeground(Color.white);
         login.addActionListener(this);
-        add(login);
+        content.add(login, gbcLabel);
 
         clear = new JButton("Clear");
-        clear.setBounds(470, 250, 100, 30);
         clear.setFocusable(false);
         clear.setBackground(Color.black);
         clear.setForeground(Color.white);
         clear.addActionListener(this);
-        add(clear);
+        content.add(clear, gbcLabel);
 
-        register = new JButton("RegisterOne");
-        register.setBounds(320, 300, 250, 30);
+        register = new JButton("Register");
         register.setFocusable(false);
         register.setBackground(Color.black);
         register.setForeground(Color.white);
         register.addActionListener(this);
-        add(register);
+        content.add(register, gbcField);
 
         getContentPane().setBackground(Color.white);
         setLocationRelativeTo(null);
@@ -84,7 +102,7 @@ public class Login extends JFrame implements ActionListener {
             cardTextField.setText("");
             cardPin.setText("");
         } else if (e.getSource() == login) {
-
+            //call logIn page
         } else {
 
         }

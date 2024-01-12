@@ -1,16 +1,27 @@
 import com.toedter.calendar.JDateChooser;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Objects;
 import java.util.Random;
-public class RegisterOne extends JFrame {
+
+public class RegisterOne extends JFrame implements ActionListener {
 
     Long randomNo;
     JTextField nameText, fatherNameText, emailText, addressText, cityText, stateText, pincodeText;
     JDateChooser date;
     JComboBox<String> maritalText, genderText;
 
+    Connection connection = dataBase.getConnection();
 
     RegisterOne() {
+
         setSize(700, 800);
         setMinimumSize(new Dimension(900, 800));
         setLocationRelativeTo(null);
@@ -188,6 +199,7 @@ public class RegisterOne extends JFrame {
         next.setFocusable(false);
         next.setBackground(Color.black);
         next.setForeground(Color.white);
+        next.addActionListener(this);
         rightTop.add(next);
 
         JPanel leftPane = new JPanel();
@@ -202,5 +214,67 @@ public class RegisterOne extends JFrame {
     public static void main(String[] args) {
         new RegisterOne();
     }
+
+    public void actionPerformed(ActionEvent ae) {
+
+        String formNo = "" + randomNo; // long to string
+        String name = nameText.getText();
+        String fatherName = fatherNameText.getText();
+        Date dob = date.getDate();
+        String dateOfBirth = (dob != null) ? new SimpleDateFormat("yyyy-MM-dd").format(dob) : "";
+        String gender = (String) genderText.getSelectedItem();
+        String maritalStatus = (String) maritalText.getSelectedItem();
+        String email = emailText.getText();
+        String address = addressText.getText();
+        String city = cityText.getText();
+        String state = stateText.getText();
+        String pincode = pincodeText.getText();
+
+        if (name.isEmpty() || fatherName.isEmpty() || dateOfBirth.isEmpty() ||
+                Objects.requireNonNull(gender).isEmpty() || Objects.requireNonNull(maritalStatus).isEmpty() || email.isEmpty() ||
+                address.isEmpty() || city.isEmpty() || state.isEmpty() || pincode.isEmpty()) {
+
+            JOptionPane.showMessageDialog(this, "All fields are required. Please fill in all the fields.", "Error", JOptionPane.ERROR_MESSAGE);
+
+        } else {
+
+            try {
+
+                String query = "INSERT INTO registration_data " +
+                        "(user_visible_form_no, name, father_name, date_of_birth, gender, marital_status, " +
+                        "email, address, city, state, pincode) " +
+                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                preparedStatement.setString(1, formNo);
+                preparedStatement.setString(2, name);
+                preparedStatement.setString(3, fatherName);
+                preparedStatement.setString(4, dateOfBirth);
+                preparedStatement.setString(5, gender);
+                preparedStatement.setString(6, maritalStatus);
+                preparedStatement.setString(7, email);
+                preparedStatement.setString(8, address);
+                preparedStatement.setString(9, city);
+                preparedStatement.setString(10, state);
+                preparedStatement.setString(11, pincode);
+
+                int rowsAffected = preparedStatement.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    JOptionPane.showMessageDialog(this, "User data added successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Failed to add user data.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+
+                preparedStatement.close();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "An error occurred while adding user data.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
+    }
+
 
 }
