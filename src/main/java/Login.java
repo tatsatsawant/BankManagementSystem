@@ -26,7 +26,6 @@ public class Login extends JFrame implements ActionListener {
         header.add(image);
 
         JLabel heading = new JLabel("Welcome to ATM");
-        heading.setBounds(250, 40, 400, 40);
         heading.setFont(new Font("Osward", Font.BOLD, 38));
         header.add(heading);
 
@@ -38,11 +37,11 @@ public class Login extends JFrame implements ActionListener {
         //----------------------------------------------------
         GridBagConstraints gbcLabel = new GridBagConstraints();
         gbcLabel.anchor = GridBagConstraints.WEST;
-        gbcLabel.insets = new Insets(0, 10, 30, 20);
+        gbcLabel.insets = new Insets(0, 10, 15, 20);
 
         GridBagConstraints gbcField = new GridBagConstraints();
         gbcField.anchor = GridBagConstraints.WEST;
-        gbcField.insets = new Insets(0, 10, 30, 10);
+        gbcField.insets = new Insets(0, 10, 15, 10);
         gbcField.gridwidth = GridBagConstraints.REMAINDER;
         //-----------------------------------------------------
 
@@ -66,26 +65,47 @@ public class Login extends JFrame implements ActionListener {
         cardPin.setFont(new Font("Raleway", Font.ITALIC, 20));
         content.add(cardPin, gbcField);
 
+        JPanel buttonsSection = new JPanel();
+        buttonsSection.setPreferredSize(new Dimension(400, 30));
+        buttonsSection.setBackground(null);
+        buttonsSection.setLayout(new FlowLayout(FlowLayout.LEFT, 120, 0));
+        content.add(buttonsSection, gbcField);
+
         login = new JButton("Sign In");
         login.setFocusable(false);
         login.setBackground(Color.black);
         login.setForeground(Color.white);
         login.addActionListener(this);
-        content.add(login, gbcLabel);
+        buttonsSection.add(login);
 
         clear = new JButton("Clear");
         clear.setFocusable(false);
         clear.setBackground(Color.black);
         clear.setForeground(Color.white);
         clear.addActionListener(this);
-        content.add(clear, gbcLabel);
+        buttonsSection.add(clear);
+
+        JPanel registerSection = new JPanel();
+        registerSection.setPreferredSize(new Dimension(380, 30));
+        registerSection.setBackground(null);
+        registerSection.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
+        content.add(registerSection, gbcField);
+
 
         register = new JButton("Register");
+        register.setPreferredSize(new Dimension(260, 25));
         register.setFocusable(false);
         register.setBackground(Color.black);
         register.setForeground(Color.white);
         register.addActionListener(this);
-        content.add(register, gbcField);
+        registerSection.add(register);
+
+
+        JPanel footer = new JPanel();
+        footer.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
+        setPreferredSize(new Dimension(0, 500));
+        footer.setBackground(Color.white);
+        add(footer, BorderLayout.SOUTH);
 
         getContentPane().setBackground(Color.white);
         setLocationRelativeTo(null);
@@ -103,8 +123,9 @@ public class Login extends JFrame implements ActionListener {
             cardPin.setText("");
         } else if (e.getSource() == login) {
             //call logIn page
-        } else {
-
+        } else if (e.getSource() == register) {
+            setVisible(false);
+            new RegisterOne().setVisible(true);
         }
     }
 }
