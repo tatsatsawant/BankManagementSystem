@@ -1,12 +1,14 @@
 import com.toedter.calendar.JDateChooser;
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.Random;
-
 public class RegisterOne extends JFrame {
 
-    private static JPanel contentTwo;
+    Long randomNo;
+    JTextField nameText, fatherNameText, emailText, addressText, cityText, stateText, pincodeText;
+    JDateChooser date;
+    JComboBox<String> maritalText, genderText;
+
 
     RegisterOne() {
         setSize(700, 800);
@@ -21,7 +23,7 @@ public class RegisterOne extends JFrame {
         add(header, BorderLayout.NORTH);
 
         Random random = new Random();
-        long randomNo = (Math.abs((random.nextLong() % 9000L) + 1000L));
+        randomNo = (Math.abs((random.nextLong() % 9000L) + 1000L));
 
         JLabel formNo = new JLabel("Application Form No. " + randomNo);
         formNo.setFont(new Font("Raleway", Font.BOLD, 38));
@@ -53,20 +55,122 @@ public class RegisterOne extends JFrame {
         personalDetails.setBackground(Color.white);
         headerTwo.add(personalDetails);
 
-        contentTwo = new JPanel();
+        JPanel contentTwo = new JPanel();
         contentTwo.setLayout(new GridBagLayout());
         contentTwo.setBackground(Color.white);
         content.add(contentTwo, BorderLayout.CENTER);
-        addFormField("Name:", FieldType.TEXT);
-        addFormField("Father's Name:", FieldType.TEXT);
-        addFormField("Date of Birth:", FieldType.DATE);
-        addFormField("Gender", FieldType.DROP_DOWN_GENDER);
-        addFormField("Email Address:", FieldType.TEXT);
-        addFormField("Marital Status", FieldType.DROP_DOWN_STATUS);
-        addFormField("Address:", FieldType.TEXT);
-        addFormField("City", FieldType.TEXT);
-        addFormField("State", FieldType.TEXT);
-        addFormField("Pincode", FieldType.TEXT);
+
+        //----------------------------------------------------
+        GridBagConstraints gbcLabel = new GridBagConstraints();
+        gbcLabel.anchor = GridBagConstraints.WEST;
+        gbcLabel.insets = new Insets(10, 10, 10, 20);
+
+        GridBagConstraints gbcField = new GridBagConstraints();
+        gbcField.anchor = GridBagConstraints.WEST;
+        gbcField.insets = new Insets(10, 10, 10, 10);
+        gbcField.gridwidth = GridBagConstraints.REMAINDER;
+        //-----------------------------------------------------
+        JLabel name = new JLabel("Name:");
+        name.setBackground(Color.white);
+        name.setFont(new Font("Raleway", Font.BOLD, 12));
+        contentTwo.add(name, gbcLabel);
+
+        nameText = new JTextField(20);
+        nameText.setBackground(Color.white);
+        nameText.setFont(new Font("Raleway", Font.ITALIC, 12));
+        contentTwo.add(nameText, gbcField);
+
+        JLabel fatherName = new JLabel("Father's Name:");
+        fatherName.setBackground(Color.white);
+        fatherName.setFont(new Font("Raleway", Font.BOLD, 12));
+        contentTwo.add(fatherName, gbcLabel);
+
+        fatherNameText = new JTextField(20);
+        fatherNameText.setBackground(Color.white);
+        fatherNameText.setFont(new Font("Raleway", Font.ITALIC, 12));
+        contentTwo.add(fatherNameText, gbcField);
+
+        JLabel dob = new JLabel("Date Of Birth:");
+        dob.setBackground(Color.white);
+        dob.setFont(new Font("Raleway", Font.BOLD, 12));
+        contentTwo.add(dob, gbcLabel);
+
+        date = new JDateChooser();
+        date.setBackground(Color.white);
+        date.setPreferredSize(new Dimension(200, 20));
+        contentTwo.add(date, gbcField);
+
+        JLabel gender = new JLabel("Gender:");
+        gender.setBackground(Color.white);
+        gender.setFont(new Font("Raleway", Font.BOLD, 12));
+        contentTwo.add(gender, gbcLabel);
+
+        String[] genderOptions = {"Male", "Female", "Other"};
+        genderText = new JComboBox<>(genderOptions);
+        genderText.setBackground(Color.white);
+        genderText.setFont(new Font("Raleway", Font.ITALIC, 12));
+        contentTwo.add(genderText, gbcField);
+
+        JLabel email = new JLabel("Email Address::");
+        email.setBackground(Color.white);
+        email.setFont(new Font("Raleway", Font.BOLD, 12));
+        contentTwo.add(email, gbcLabel);
+
+        emailText = new JTextField(20);
+        emailText.setBackground(Color.white);
+        emailText.setFont(new Font("Raleway", Font.ITALIC, 12));
+        contentTwo.add(emailText, gbcField);
+
+        JLabel marital = new JLabel("Marital Status:");
+        marital.setBackground(Color.white);
+        marital.setFont(new Font("Raleway", Font.BOLD, 12));
+        contentTwo.add(marital, gbcLabel);
+
+        String[] maritalOptions = {"Married", "Unmarried", "Other"};
+        maritalText = new JComboBox<>(maritalOptions);
+        maritalText.setBackground(Color.white);
+        maritalText.setFont(new Font("Raleway", Font.ITALIC, 12));
+        contentTwo.add(maritalText, gbcField);
+
+        JLabel address = new JLabel("Address:");
+        address.setBackground(Color.white);
+        address.setFont(new Font("Raleway", Font.BOLD, 12));
+        contentTwo.add(address, gbcLabel);
+
+        addressText = new JTextField(20);
+        addressText.setBackground(Color.white);
+        addressText.setFont(new Font("Raleway", Font.ITALIC, 12));
+        contentTwo.add(addressText, gbcField);
+
+        JLabel city = new JLabel("City:");
+        city.setBackground(Color.white);
+        city.setFont(new Font("Raleway", Font.BOLD, 12));
+        contentTwo.add(city, gbcLabel);
+
+        cityText = new JTextField(20);
+        cityText.setBackground(Color.white);
+        cityText.setFont(new Font("Raleway", Font.ITALIC, 12));
+        contentTwo.add(cityText, gbcField);
+
+        JLabel state = new JLabel("State:");
+        state.setBackground(Color.white);
+        state.setFont(new Font("Raleway", Font.BOLD, 12));
+        contentTwo.add(state, gbcLabel);
+
+        stateText = new JTextField(20);
+        stateText.setBackground(Color.white);
+        stateText.setFont(new Font("Raleway", Font.ITALIC, 12));
+        contentTwo.add(stateText, gbcField);
+
+        JLabel pincode = new JLabel("Pincode:");
+        pincode.setBackground(Color.white);
+        pincode.setFont(new Font("Raleway", Font.BOLD, 12));
+        contentTwo.add(pincode, gbcLabel);
+
+        pincodeText = new JTextField(20);
+        pincodeText.setBackground(Color.white);
+        pincodeText.setFont(new Font("Raleway", Font.ITALIC, 12));
+        contentTwo.add(pincodeText, gbcField);
 
         JPanel rightPane = new JPanel();
         rightPane.setLayout(new BorderLayout());
@@ -99,51 +203,4 @@ public class RegisterOne extends JFrame {
         new RegisterOne();
     }
 
-    private void addFormField(String labelText, FieldType fieldType) {
-        GridBagConstraints gbcLabel = new GridBagConstraints();
-        gbcLabel.anchor = GridBagConstraints.WEST;
-        gbcLabel.insets = new Insets(10, 10, 10, 20);
-
-        GridBagConstraints gbcField = new GridBagConstraints();
-        gbcField.anchor = GridBagConstraints.WEST;
-        gbcField.insets = new Insets(10, 10, 10, 10);
-        gbcField.gridwidth = GridBagConstraints.REMAINDER;
-
-        JLabel label = new JLabel(labelText);
-        JComponent field;
-
-        switch (fieldType) {
-            case TEXT:
-                field = new JTextField(20);
-                break;
-            case PASSWORD:
-                field = new JPasswordField(20);
-                break;
-            case DATE:
-                field = new JDateChooser();
-                ((JDateChooser) field).setPreferredSize(new Dimension(200, 20));
-                break;
-            case DROP_DOWN_GENDER:
-                String[] genderOptions = {"Male", "Female", "Other"};
-                field = new JComboBox<>(genderOptions);
-                break;
-            case DROP_DOWN_STATUS:
-                String[] statusOptions = {"Married", "Unmarried", "Other"};
-                field = new JComboBox<>(statusOptions);
-                break;
-            default:
-                field = new JTextField(20);
-        }
-
-        label.setBackground(Color.white);
-        label.setFont(new Font("Raleway", Font.BOLD, 12));
-        field.setBackground(Color.white);
-        field.setFont(new Font("Raleway", Font.ITALIC, 12));
-        contentTwo.add(label, gbcLabel);
-        contentTwo.add(field, gbcField);
-    }
-
-    private enum FieldType {
-        TEXT, PASSWORD, DATE, DROP_DOWN_GENDER, DROP_DOWN_STATUS
-    }
 }
