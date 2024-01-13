@@ -216,7 +216,7 @@ public class RegisterTwo extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        new RegisterThree("");
+        new RegisterTwo("");
     }
 
     public void actionPerformed(ActionEvent ae) {
