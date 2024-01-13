@@ -361,7 +361,7 @@ public class RegisterThree extends JFrame implements ActionListener {
                     if (rowsAffected > 0 & rowsAffected2 > 0) {
                         JOptionPane.showMessageDialog(this, "Your Card no: " + cardNo + "\n Your Pin No: " + pinNo, "Success", JOptionPane.INFORMATION_MESSAGE);
                         setVisible(false);
-                        new Login().setVisible(true);
+                        new Deposit(pinNo).setVisible(true);
 
                     } else {
                         JOptionPane.showMessageDialog(this, "Failed to add user data.", "Error", JOptionPane.ERROR_MESSAGE);

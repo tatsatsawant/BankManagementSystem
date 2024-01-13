@@ -7,8 +7,12 @@ import java.awt.event.ActionListener;
 public class Transaction extends JFrame implements ActionListener {
 
     JButton deposit, cashWithdrawal, fastCash, miniStatement, pinChange, balanceEnquiry, exit;
+    String pin;
 
-    Transaction() {
+    Transaction(String pinNumber) {
+
+        this.pin = pinNumber;
+
         setSize(900, 700);
         setMinimumSize(new Dimension(900, 700));
         setLocationRelativeTo(null);
@@ -128,7 +132,7 @@ public class Transaction extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        new Transaction();
+        new Transaction("");
     }
 
     public void actionPerformed(ActionEvent ae) {
@@ -136,8 +140,12 @@ public class Transaction extends JFrame implements ActionListener {
             System.exit(0);
         } else if (ae.getSource() == deposit) {
 
-        } else if (ae.getSource() == cashWithdrawal) {
+            setVisible(false);
+            new Deposit(pin).setVisible(true);
 
+        } else if (ae.getSource() == cashWithdrawal) {
+            setVisible(false);
+            new Withdrawal(pin).setVisible(true);
         } else if (ae.getSource() == fastCash) {
 
         } else if (ae.getSource() == miniStatement) {
