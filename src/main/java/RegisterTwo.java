@@ -30,8 +30,7 @@ public class RegisterTwo extends JFrame implements ActionListener {
         header.setBackground(Color.white);
         add(header, BorderLayout.NORTH);
 
-//        JLabel formNo = new JLabel("Application Form No. "+ formNumber);
-        JLabel formNo = new JLabel("Application Form No. ");
+        JLabel formNo = new JLabel("Application Form No. "+ formNumber);
         formNo.setFont(new Font("Raleway", Font.BOLD, 38));
         formNo.setForeground(Color.black);
         header.add(formNo);
@@ -217,7 +216,7 @@ public class RegisterTwo extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        new RegisterTwo("");
+        new RegisterThree("");
     }
 
     public void actionPerformed(ActionEvent ae) {
@@ -266,9 +265,9 @@ public class RegisterTwo extends JFrame implements ActionListener {
 
                 if (rowsAffected > 0) {
                     JOptionPane.showMessageDialog(this, "User data added successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
-
-                    //call form 3
                     setVisible(false);
+                    new RegisterThree(formNo).setVisible(true);
+
                 } else {
                     JOptionPane.showMessageDialog(this, "Failed to add user data.", "Error", JOptionPane.ERROR_MESSAGE);
                 }

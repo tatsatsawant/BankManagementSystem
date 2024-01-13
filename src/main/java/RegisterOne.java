@@ -183,30 +183,24 @@ public class RegisterOne extends JFrame implements ActionListener {
         pincodeText.setFont(new Font("Raleway", Font.ITALIC, 12));
         contentTwo.add(pincodeText, gbcField);
 
-        JPanel rightPane = new JPanel();
-        rightPane.setLayout(new BorderLayout());
-        rightPane.setBackground(Color.white);
-        rightPane.setPreferredSize(new Dimension(200, 200));
-        add(rightPane, BorderLayout.EAST);
-
-        JPanel rightTop = new JPanel();
-        rightTop.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        rightTop.setBackground(Color.white);
-        rightPane.setPreferredSize(new Dimension(150, 200));
-        rightPane.add(rightTop, BorderLayout.NORTH);
+        JPanel footerTwo = new JPanel();
+        footerTwo.setBackground(null);
+        footerTwo.setLayout(new FlowLayout(FlowLayout.CENTER, 30,10));
+        content.add(footerTwo, BorderLayout.SOUTH);
 
         JButton next = new JButton("NEXT");
         next.setFocusable(false);
         next.setBackground(Color.black);
         next.setForeground(Color.white);
         next.addActionListener(this);
-        rightTop.add(next);
+        footerTwo.add(next);
 
-        JPanel leftPane = new JPanel();
-        leftPane.setLayout(new BorderLayout());
-        leftPane.setBackground(Color.white);
-        leftPane.setPreferredSize(new Dimension(200, 200));
-        add(leftPane, BorderLayout.WEST);
+        JButton cancel = new JButton("Cancel");
+        cancel.setFocusable(false);
+        cancel.setBackground(Color.black);
+        cancel.setForeground(Color.white);
+        cancel.addActionListener(this);
+        footerTwo.add(cancel);
 
         setVisible(true);
     }
@@ -263,7 +257,7 @@ public class RegisterOne extends JFrame implements ActionListener {
                 if (rowsAffected > 0) {
                     JOptionPane.showMessageDialog(this, "User data added successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
                     setVisible(false);
-                    new RegisterTwo(formNo).setVisible(true);
+                    new RegisterThree(formNo).setVisible(true);
 
                 } else {
                     JOptionPane.showMessageDialog(this, "Failed to add user data.", "Error", JOptionPane.ERROR_MESSAGE);
