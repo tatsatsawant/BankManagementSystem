@@ -22,7 +22,7 @@ public class dataBase {
 
             Class.forName("org.postgresql.Driver");
             connect = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
-            System.out.println("Connection Established!");
+//            System.out.println("Connection Established!");
             statement = connect.createStatement();
 
 

@@ -14,6 +14,7 @@ public class RegisterTwo extends JFrame implements ActionListener {
     JComboBox<String> ageGroupText, religionText, categoryText, incomeText, educationText, occupationText;
     String existingAccount = null;
     JRadioButton yesExisting, noExisting;
+    JButton next, cancel;
 
     RegisterTwo(String formNumber) {
 
@@ -30,7 +31,7 @@ public class RegisterTwo extends JFrame implements ActionListener {
         header.setBackground(Color.white);
         add(header, BorderLayout.NORTH);
 
-        JLabel formNo = new JLabel("Application Form No. "+ formNumber);
+        JLabel formNo = new JLabel("Application Form No. " + formNumber);
         formNo.setFont(new Font("Raleway", Font.BOLD, 38));
         formNo.setForeground(Color.black);
         header.add(formNo);
@@ -187,30 +188,24 @@ public class RegisterTwo extends JFrame implements ActionListener {
         existingAccountGroup.add(noExisting);
         contentTwo.add(noExisting, gbcLabel);
 
-        JPanel rightPane = new JPanel();
-        rightPane.setLayout(new BorderLayout());
-        rightPane.setBackground(Color.white);
-        rightPane.setPreferredSize(new Dimension(200, 200));
-        add(rightPane, BorderLayout.EAST);
+        JPanel footerTwo = new JPanel();
+        footerTwo.setBackground(null);
+        footerTwo.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 10));
+        content.add(footerTwo, BorderLayout.SOUTH);
 
-        JPanel rightTop = new JPanel();
-        rightTop.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        rightTop.setBackground(Color.white);
-        rightPane.setPreferredSize(new Dimension(150, 200));
-        rightPane.add(rightTop, BorderLayout.NORTH);
-
-        JButton next = new JButton("NEXT");
+        next = new JButton("NEXT");
         next.setFocusable(false);
         next.setBackground(Color.black);
         next.setForeground(Color.white);
         next.addActionListener(this);
-        rightTop.add(next);
+        footerTwo.add(next);
 
-        JPanel leftPane = new JPanel();
-        leftPane.setLayout(new BorderLayout());
-        leftPane.setBackground(Color.white);
-        leftPane.setPreferredSize(new Dimension(200, 200));
-        add(leftPane, BorderLayout.WEST);
+        cancel = new JButton("Cancel");
+        cancel.setFocusable(false);
+        cancel.setBackground(Color.black);
+        cancel.setForeground(Color.white);
+        cancel.addActionListener(this);
+        footerTwo.add(cancel);
 
         setVisible(true);
     }
@@ -230,54 +225,60 @@ public class RegisterTwo extends JFrame implements ActionListener {
         String panNo = panNoText.getText();
         String aadharNo = aadharNoText.getText();
 
-        if (yesExisting.isSelected()) {
-            existingAccount = "yes";
-        } else if (noExisting.isSelected()) {
-            existingAccount = "No";
-        }
+        if (ae.getSource() == next) {
 
-        if (panNo.isEmpty() || aadharNo.isEmpty()) {
-
-            JOptionPane.showMessageDialog(this, "All fields are required. Please fill in all the fields.", "Error", JOptionPane.ERROR_MESSAGE);
-
-        } else {
-
-            try {
-
-                String query = "INSERT INTO registration_data_2 " +
-                        "(user_visible_form_no, religion, category, income, age_group, " +
-                        "education, occupation, pan_no, aadhar_no, existing_account) " +
-                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-                PreparedStatement preparedStatement = connection.prepareStatement(query);
-                preparedStatement.setString(1, formNo);
-                preparedStatement.setString(2, religion);
-                preparedStatement.setString(3, category);
-                preparedStatement.setString(4, income);
-                preparedStatement.setString(5, ageGroup);
-                preparedStatement.setString(6, education);
-                preparedStatement.setString(7, occupation);
-                preparedStatement.setString(8, panNo);
-                preparedStatement.setString(9, aadharNo);
-                preparedStatement.setString(10, existingAccount);
-
-                int rowsAffected = preparedStatement.executeUpdate();
-
-                if (rowsAffected > 0) {
-                    JOptionPane.showMessageDialog(this, "User data added successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
-                    setVisible(false);
-                    new RegisterThree(formNo).setVisible(true);
-
-                } else {
-                    JOptionPane.showMessageDialog(this, "Failed to add user data.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-
-                preparedStatement.close();
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(this, "An error occurred while adding user data.", "Error", JOptionPane.ERROR_MESSAGE);
+            if (yesExisting.isSelected()) {
+                existingAccount = "yes";
+            } else if (noExisting.isSelected()) {
+                existingAccount = "No";
             }
+
+            if (panNo.isEmpty() || aadharNo.isEmpty()) {
+
+                JOptionPane.showMessageDialog(this, "All fields are required. Please fill in all the fields.", "Error", JOptionPane.ERROR_MESSAGE);
+
+            } else {
+
+                try {
+
+                    String query = "INSERT INTO registration_data_2 " +
+                            "(user_visible_form_no, religion, category, income, age_group, " +
+                            "education, occupation, pan_no, aadhar_no, existing_account) " +
+                            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+                    PreparedStatement preparedStatement = connection.prepareStatement(query);
+                    preparedStatement.setString(1, formNo);
+                    preparedStatement.setString(2, religion);
+                    preparedStatement.setString(3, category);
+                    preparedStatement.setString(4, income);
+                    preparedStatement.setString(5, ageGroup);
+                    preparedStatement.setString(6, education);
+                    preparedStatement.setString(7, occupation);
+                    preparedStatement.setString(8, panNo);
+                    preparedStatement.setString(9, aadharNo);
+                    preparedStatement.setString(10, existingAccount);
+
+                    int rowsAffected = preparedStatement.executeUpdate();
+
+                    if (rowsAffected > 0) {
+//                        JOptionPane.showMessageDialog(this, "User data added successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        setVisible(false);
+                        new RegisterThree(formNo).setVisible(true);
+
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Failed to add user data.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+
+                    preparedStatement.close();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    JOptionPane.showMessageDialog(this, "An error occurred while adding user data.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        } else if (ae.getSource() == cancel) {
+            setVisible(false);
+            new Login().setVisible(true);
         }
 
     }

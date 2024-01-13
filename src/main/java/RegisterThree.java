@@ -1,12 +1,14 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.util.Random;
 
-public class RegisterThree extends JFrame {
+public class RegisterThree extends JFrame implements ActionListener {
 
     String formNo;
-
-    Connection connection = dataBase.getConnection();
 
     JRadioButton savings, current, fixedDeposit, recurringDeposit;
 
@@ -278,14 +280,14 @@ public class RegisterThree extends JFrame {
         submit.setFocusable(false);
         submit.setBackground(Color.black);
         submit.setForeground(Color.white);
-//        submit.addActionListener(this);
+        submit.addActionListener(this);
         footerTwoSouth.add(submit);
 
         cancel = new JButton("Cancel");
         cancel.setFocusable(false);
         cancel.setBackground(Color.black);
         cancel.setForeground(Color.white);
-//        submit.addActionListener(this);
+        cancel.addActionListener(this);
         footerTwoSouth.add(cancel);
 
         setVisible(true);
@@ -293,6 +295,89 @@ public class RegisterThree extends JFrame {
 
     public static void main(String[] args) {
         new RegisterThree("");
+    }
+
+    public void actionPerformed(ActionEvent ae) {
+        if (ae.getSource() == submit) {
+
+            String accountType = null;
+            if (savings.isSelected()) {
+                accountType = "Savings Account";
+            } else if (current.isSelected()) {
+                accountType = "Current Account";
+            } else if (fixedDeposit.isSelected()) {
+                accountType = "Fixed Deposit Account";
+            } else if (recurringDeposit.isSelected()) {
+                accountType = "Recurring Deposit Account";
+            }
+
+            Random random = new Random();
+            String cardNo = "" + Math.abs((random.nextLong() % 90000000L) + 5040936000000000L);
+            String pinNo = "" + Math.abs((random.nextLong() % 9000L) + 1000L);
+            String facility = "";
+
+            if (isATMRequired.isSelected()) {
+                facility += " ATM CARD";
+            } else if (isChequeBook.isSelected()) {
+                facility += " Cheque Book";
+            } else if (isEStatement.isSelected()) {
+                facility += " E-Statement";
+            } else if (isEmailAndSms.isSelected()) {
+                facility += " Email And SMS";
+            } else if (isMobileBanking.isSelected()) {
+                facility += " Mobile Banking";
+            } else if (isInternetBanking.isSelected()) {
+                facility += " Internet Banking";
+            }
+
+            try {
+                if (accountType == null) {
+                    JOptionPane.showMessageDialog(this, "Account Type is required.", "Error", JOptionPane.ERROR_MESSAGE);
+
+                } else {
+                    Connection connection = dataBase.getConnection();
+
+                    String query = "INSERT INTO registration_data_3 " +
+                            "(user_visible_form_no, accountType, cardNumber, pinNumber, facility) " + "VALUES (?, ?, ?, ?, ?)";
+
+                    PreparedStatement preparedStatement = connection.prepareStatement(query);
+                    preparedStatement.setString(1, formNo);
+                    preparedStatement.setString(2, accountType);
+                    preparedStatement.setString(3, cardNo);
+                    preparedStatement.setString(4, pinNo);
+                    preparedStatement.setString(5, facility);
+
+                    String query2 = "INSERT INTO public.login(" +
+                            "user_visible_form_no, cardnumber, pinnumber)" +
+                            "VALUES (?, ?, ?);";
+                    PreparedStatement preparedStatement2 = connection.prepareStatement(query2);
+                    preparedStatement2.setString(1, formNo);
+                    preparedStatement2.setString(2, cardNo);
+                    preparedStatement2.setString(3, pinNo);
+
+                    int rowsAffected = preparedStatement.executeUpdate();
+                    int rowsAffected2 = preparedStatement2.executeUpdate();
+
+                    if (rowsAffected > 0 & rowsAffected2 > 0) {
+                        JOptionPane.showMessageDialog(this, "Your Card no: " + cardNo + "\n Your Pin No: " + pinNo, "Success", JOptionPane.INFORMATION_MESSAGE);
+                        setVisible(false);
+                        new Login().setVisible(true);
+
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Failed to add user data.", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+
+                    preparedStatement.close();
+                    preparedStatement2.close();
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+
+        } else if (ae.getSource() == cancel) {
+            new Login().setVisible(true);
+            setVisible(false);
+        }
     }
 
 }
