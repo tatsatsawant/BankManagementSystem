@@ -2,6 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class Login extends JFrame implements ActionListener {
     JButton login, clear, register;
@@ -122,10 +126,36 @@ public class Login extends JFrame implements ActionListener {
             cardTextField.setText("");
             cardPin.setText("");
         } else if (e.getSource() == login) {
-            //call logIn page
+
+            Connection connection = dataBase.getConnection();
+            String cardNumber = cardTextField.getText();
+            char[] password = cardPin.getPassword();
+            String pinNumber = new String(password);
+
+            try {
+                String query = "SELECT * FROM public.login WHERE cardnumber = ? AND pinnumber = ?";
+
+                try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                    preparedStatement.setString(1, cardNumber);
+                    preparedStatement.setString(2, pinNumber);
+
+                    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                        if (resultSet.next()) {
+                            setVisible(false);
+                            new Transaction().setVisible(true);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Incorrect Card Number or Pin");
+                        }
+                    }
+                }
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+
         } else if (e.getSource() == register) {
             setVisible(false);
             new RegisterOne().setVisible(true);
         }
     }
+
 }
