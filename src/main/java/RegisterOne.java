@@ -122,7 +122,7 @@ public class RegisterOne extends JFrame implements ActionListener {
         genderText.setFont(new Font("Raleway", Font.ITALIC, 12));
         contentTwo.add(genderText, gbcField);
 
-        JLabel email = new JLabel("Email Address::");
+        JLabel email = new JLabel("Email Address:");
         email.setBackground(Color.white);
         email.setFont(new Font("Raleway", Font.BOLD, 12));
         contentTwo.add(email, gbcLabel);
@@ -262,6 +262,9 @@ public class RegisterOne extends JFrame implements ActionListener {
 
                 if (rowsAffected > 0) {
                     JOptionPane.showMessageDialog(this, "User data added successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                    setVisible(false);
+                    new RegisterTwo(formNo).setVisible(true);
+
                 } else {
                     JOptionPane.showMessageDialog(this, "Failed to add user data.", "Error", JOptionPane.ERROR_MESSAGE);
                 }
