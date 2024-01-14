@@ -16,6 +16,7 @@ public class Login extends JFrame implements ActionListener {
         setTitle("Automated Teller Machine");
         setSize(800, 500);
         setLayout(new BorderLayout());
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel header = new JPanel();
         header.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 20));
